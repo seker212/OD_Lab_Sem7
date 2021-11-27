@@ -63,7 +63,7 @@ def add_new_block_to_list(self):
     '''.format(datetime.now().strftime("%d-%m-%Y %H:%M:%S"), self.text_input.text()))
     print(blocks)
     
-    if any("" not in block for block in blocks):
+    if not any("" in block for block in blocks):
         blocks.append([te.toPlainText(),"",""])
     else:   
         for r in range(len(blocks)):
