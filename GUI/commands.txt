@@ -1,0 +1,19 @@
+
+
+In pyqt5 you can use:
+
+    convert to none-executable python file :
+
+    pyuic5 -o pyfilename.py design.ui
+
+    convert to executable python file :
+
+    pyuic5 -x -o pyfilename.py design.ui
+
+and also for resource diles(qrc):
+
+    convert qrc to python file :
+
+    pyrcc5 -o pyfilename.py res.qrc
+
+Note: that if you run the command in the wrong way,your ui file will be lost.So you have to make a copy of your files:)
