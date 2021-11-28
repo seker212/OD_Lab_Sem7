@@ -47,9 +47,10 @@ def set_start_block(self):
     self.tableView.setModel(self.model)
 
 def add_block(self):
-    if self.check_if_text_is_empty():
-        self.text_input.setText("Please fill this field.")
+    if not self.check_text_input():
+        self.set_empty_input_warning()
     else:
+        self.set_input_default_color()
         self.add_new_block_to_list()
 
 
@@ -76,8 +77,39 @@ def add_new_block_to_list(self):
     self.model = DataModel(blocks)
     self.tableView.setModel(self.model)
 
-def check_if_text_is_empty(self):
-    if self.text_input.text() == "":
-        return True
-    else:
+def check_text_input(self):
+    if self.text_input.text() == "" or "Please fill this field!" in self.text_input.text():
         return False
+    else:
+        return True
+    
+def set_empty_input_warning(self):
+    self.text_input.setStyleSheet("color: #ff0000")
+    self.text_input.setText("Please fill this field!")
+
+def set_input_default_color(self):
+    self.text_input.setStyleSheet("color: #00000")
+
+def clear_all_blocks(self):
+    if not (len(blocks) == 1 and blocks[0][1] == "" and blocks[0][2] == ""):
+        blocks.clear()
+        self.set_start_block()
+    
+def show_message_box(self):
+        msgBox = QMessageBox()
+        msgBox.setIcon(QMessageBox.Icon.Information)
+        msgBox.setText("""<p>Program przygotowany na potrzeby realizacji projektu z przedmiotu Ochrona Danych.</p>
+        <p>Zadaniem programu jest demonstracja działania blockchain</p>
+        <ul>
+            <li>Sebastian Skrobich</li>
+            <li>Karol Sienkiewicz</li>
+            <li>Piotr Sobieraj</li>
+            <li>Eryk Wittchen</li>
+        </ul>
+        <p>Wersja: 1.0</p>
+        """)
+        msgBox.setWindowTitle("Info")
+        msgBox.setStyleSheet(infoStyle)
+        msgBox.setStandardButtons(QMessageBox.StandardButton.Ok)
+        msgBox.buttons()[0].setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        msgBox.exec()
