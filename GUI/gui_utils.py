@@ -58,6 +58,7 @@ def add_new_block_to_list(self):
     te.setText('''
         BLOCK
         Hash: H5fgSF
+        Prev Hash: JKd78HH
         TimeStamp: {}
         Message: {}
     '''.format(datetime.now().strftime("%d-%m-%Y %H:%M:%S"), self.text_input.text()))

@@ -57,6 +57,9 @@ QLabel{
     padding-right: 30px;
     image: url(""" + CHAIN_IMG + """);
 }
+QPushButton:hover{
+    background-color: #DB9330;
+}
 """)
 
 # background: qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 #586472, stop:1 #f8c732);}"
