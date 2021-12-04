@@ -61,5 +61,22 @@ QPushButton:hover{
     background-color: #DB9330;
 }
 """)
-
+infoStyle =("""
+QMessageBox{
+    background-color: #586472;
+    font-weight: bold;
+}
+QPushButton{
+    background-color: #F8C830;
+    border: 3px solid #fff;
+    color: #000;
+    border-radius: 8px;
+    font-size: 12px;
+    width: 80px;
+    height: 40px;
+}
+QPushButton:hover{
+    background-color: #DB9330;
+}
+""")
 # background: qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 #586472, stop:1 #f8c732);}"

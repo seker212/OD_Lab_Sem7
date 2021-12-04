@@ -7,7 +7,6 @@
 
 import os, sys
 from pathlib import Path
-
 from PyQt6.QtCore import *
 from PyQt6.QtGui import *
 from PyQt6.QtWidgets import *
@@ -250,16 +249,22 @@ class Ui_MainWindow(object):
         QMetaObject.connectSlotsByName(MainWindow)
 
         # Method mapping
-        Ui_MainWindow.get_startblock = set_start_block
+        Ui_MainWindow.set_start_block = set_start_block
         Ui_MainWindow.add_block = add_block
-        Ui_MainWindow.check_if_text_is_empty = check_if_text_is_empty
+        Ui_MainWindow.check_text_input = check_text_input
         Ui_MainWindow.add_new_block_to_list = add_new_block_to_list
+        Ui_MainWindow.set_empty_input_warning = set_empty_input_warning
+        Ui_MainWindow.set_input_default_color = set_input_default_color
+        Ui_MainWindow.clear_all_blocks = clear_all_blocks
+        Ui_MainWindow.show_message_box = show_message_box
 
         # Inits
         set_start_block(self)
 
         # Methods mapping
         self.add_btn.clicked.connect(self.add_block)
+        self.clear_btn.clicked.connect(self.clear_all_blocks)
+        self.info_btn.clicked.connect(self.show_message_box)
 
     def retranslateUi(self, MainWindow):
         _translate = QCoreApplication.translate
@@ -274,7 +279,6 @@ class Ui_MainWindow(object):
         self.delete_btn.setText(_translate("MainWindow", "Remove block"))
         self.clear_btn.setText(_translate("MainWindow", "Clear"))
         self.info_btn.setText(_translate("MainWindow", "i"))
-
 
 if __name__ == "__main__":
     import sys
