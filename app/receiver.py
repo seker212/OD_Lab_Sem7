@@ -33,10 +33,6 @@ class Receiver:
             if block.validate():
                 self.block_chain.append(block)
                 self.block_chain.validate_chain()
-            # print('\n\n================================')
-            # for x in self.block_chain._block_dict.values():
-            #     print(x[0].to_json())
-            # print('================================')
 
 if __name__ == '__main__':
     receiver = Receiver()
