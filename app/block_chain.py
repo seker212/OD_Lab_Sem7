@@ -1,5 +1,6 @@
 from typing import Dict, List, Tuple
 from common.block import Block
+from common.block_status import BlockStatus
 
 class BlockChain:
     def __init__(self, starting_block: Block) -> None:
@@ -20,7 +21,7 @@ class BlockChain:
         last_nodes = []
         for value in self._block_dict.values():
             if value[0].block_hash != self._starting_hash:
-                value[0].is_valid = False
+                value[0].is_valid = BlockStatus.INVALID
             if value[1] == self._max_len:
                 last_nodes.append(value[0].block_hash)
         for hash in last_nodes:
@@ -28,7 +29,7 @@ class BlockChain:
             while current_hash != self._starting_hash:
                 block = self._block_dict[current_hash][0]
                 if len(last_nodes) == 1:
-                    block.is_valid = True
+                    block.is_valid = BlockStatus.VALID
                 else:
-                    block.is_valid = False #TODO: Change false valie to conflict
+                    block.is_valid = BlockStatus.CONFLICT
                 current_hash = block.prev_hash

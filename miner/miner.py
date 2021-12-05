@@ -11,9 +11,9 @@ from common.block import Block
 from miner.block_cache import BlockCache, ChainData
 from time import sleep
 from common.hasher import GetSHA256
+from common.init_block import INIT_BLOCK
 import logging
 
-INITIAL_BLOCK_HASH: str = 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb' #FIXME: Change initial block hash
 MAX_FAKE_FALLBEHIND: int = 5
 FAKE_MIMERS_COUNT: int = 2
 GENUINE_MINERS_COUNT: int = 3
@@ -25,7 +25,7 @@ APP_PORT: int = 30000
 class Miner:
     def __init__(self) -> None:
         logging.debug('Initiating miner...')
-        self._block_cache = BlockCache(INITIAL_BLOCK_HASH)
+        self._block_cache = BlockCache(INIT_BLOCK.block_hash)
         self.front_socket: socket = socket()
         logging.debug(f'Attempting to connect to: {APP_HOST}, port: {APP_PORT}')
         self.front_socket.connect((APP_HOST, APP_PORT))
@@ -80,7 +80,7 @@ class Miner:
     def _send(self, block: Block, miner_name: str):
         self.front_socket.send(block.to_json().encode('ascii'))
         logging.info(f'{miner_name}\tsent block - {block.to_json()}')
-        sleep(0.1)
+        sleep(10)
 
     def mine(self):
         while True:
