@@ -1,4 +1,10 @@
-import socket
+from sys import path
+if path[0].endswith('\\miner'):
+    del path[0]
+if '' not in path:
+    path.append('')
+
+from socket import socket
 from random import randint
 from typing import Optional
 from common.block import Block
@@ -16,7 +22,9 @@ FAKE_MINERS_DELAY_COUNT: int = 2
 
 class Miner:
     def __init__(self) -> None:
-        self._block_cache = BlockCache(INITIAL_BLOCK_HASH) 
+        self._block_cache = BlockCache(INITIAL_BLOCK_HASH)
+        self.front_socket: socket = socket()
+        self.front_socket.connect(('localhost', 30000))
 
     def _guess(self, block: Block) -> bool:
         block.guess = randint(0, 4294967295)
@@ -45,7 +53,9 @@ class Miner:
 
     def _send(self, block: Block):
         # TODO: Send block to GUI app
-        print(block.to_json())
+        self.front_socket.send(block.to_json().encode('ascii'))
+        sleep(0.1)
+        # print(block.to_json())
 
     def mine(self):
         while True:
@@ -69,6 +79,9 @@ class Miner:
 
             sleep(SLEEP_SECONDS)
 
+if __name__ == '__main__':
+    miner = Miner()
+    miner.mine()
 
 # TODO: Socket communication
 # if __name__ == '__main__':
