@@ -49,7 +49,7 @@ class Block:
             self.guess >= 0 and
             self.guess <= 4294967295 and
             GetSHA256(self.to_bytes()).hex() == self.block_hash and
-            self.block_hash.hex()[0].upper() in ['A', 'B']) # This condition defines guessing chances
-        except Exception:
-            # TODO: Add error debug log
+            self.block_hash[0].upper() in ['A', 'B']) # This condition defines guessing chances
+        except Exception as ex:
+            print(ex) # TODO: Add error debug log
             return False
