@@ -3,14 +3,14 @@ from typing import Optional
 from random import randint
 
 class Block:
-    prev_hash : str
+    prev_hash : Optional[str]
     block_hash : Optional[str]
     salt : int
     guess: Optional[int]
     data : str
-    is_valid : Optional[bool]
+    is_valid : Optional[bool] # TODO: Change to enum (valid, invalid, conflict)?
     
-    def __init__(self, prev_hash:str, data:str) -> None:
+    def __init__(self, prev_hash: Optional[str], data: str) -> None:
         self.prev_hash = prev_hash
         self.block_hash = None
         self.salt = randint(0, 4294967295)
