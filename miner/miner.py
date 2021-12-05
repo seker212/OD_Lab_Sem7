@@ -52,23 +52,21 @@ class Miner:
             self._block_cache.genuine.block = Block(self._block_cache.genuine.prev_hash, 'GENUINE')
 
     def _send(self, block: Block):
-        # TODO: Send block to GUI app
         self.front_socket.send(block.to_json().encode('ascii'))
         sleep(0.1)
-        # print(block.to_json())
 
     def mine(self):
         while True:
             for thread_num in range(FAKE_MIMERS_COUNT + GENUINE_MINERS_COUNT):
                 if thread_num < GENUINE_MINERS_COUNT:
-                    # Symulate genuine miner
+                    # Simulate genuine miner
                     if self._block_cache.genuine.block is None:
                         self._produce(False)
                     if self._guess(self._block_cache.genuine.block):
                         self._send(self._block_cache.genuine.block)
                         self._produce(False)
                 else:
-                    # Symulate fake miner
+                    # Simulate fake miner
                     if self._block_cache.genuine.chain_length < FAKE_MINERS_DELAY_COUNT:
                         if self._block_cache.fake is None:
                             self._block_cache.fake = ChainData(self._block_cache.genuine.prev_hash, None, self._block_cache.genuine.chain_length)
@@ -82,11 +80,3 @@ class Miner:
 if __name__ == '__main__':
     miner = Miner()
     miner.mine()
-
-# TODO: Socket communication
-# if __name__ == '__main__':
-#     front_socket = socket.socket()
-#     front_socket.connect(('localhost', 30000))
-#     while True:
-#         msg = input()
-#         front_socket.send(msg.encode())
