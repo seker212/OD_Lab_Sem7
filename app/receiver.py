@@ -8,17 +8,13 @@ if '' not in path:
 from socket import socket
 from common.block import Block 
 from app.block_chain import BlockChain
-from miner.miner import INITIAL_BLOCK_HASH #FIXME: Initial block should be in "common" package
+from common.init_block import INIT_BLOCK
 
 class Receiver:
     block_chain: BlockChain
 
-    def __init__(self) -> None:
-        #FIXME: Create legit initial block with proper hash
-        init_block = Block(None, 'INIT')
-        init_block.block_hash = INITIAL_BLOCK_HASH
-        
-        self.block_chain = BlockChain(init_block)
+    def __init__(self) -> None:        
+        self.block_chain = BlockChain(INIT_BLOCK)
 
         self._miner_socket: socket = socket()
         self._miner_socket.bind(('localhost', 30000))
