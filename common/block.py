@@ -2,6 +2,8 @@ from json import dumps, loads
 from typing import Optional
 from random import randint
 
+from common.hasher import GetSHA256
+
 class Block:
     prev_hash : Optional[str]
     block_hash : Optional[str]
@@ -46,6 +48,7 @@ class Block:
             self.salt <= 4294967295 and
             self.guess >= 0 and
             self.guess <= 4294967295 and
+            GetSHA256(self.to_bytes()).hex() == self.block_hash and
             self.block_hash.hex()[0].upper() in ['A', 'B']) # This condition defines guessing chances
         except Exception:
             # TODO: Add error debug log
