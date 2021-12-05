@@ -1,7 +1,7 @@
 from json import dumps, loads
 from typing import Optional
 from random import randint
-
+from common.block_status import BlockStatus
 from common.hasher import GetSHA256
 
 class Block:
@@ -10,7 +10,7 @@ class Block:
     salt : int
     guess: Optional[int]
     data : str
-    is_valid : Optional[bool] # TODO: Change to enum (valid, invalid, conflict)?
+    is_valid : Optional[BlockStatus]
     
     def __init__(self, prev_hash: Optional[str], data: str) -> None:
         self.prev_hash = prev_hash
