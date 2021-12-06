@@ -48,6 +48,7 @@ QLabel{
 }
 #new_frame, #result_frame{
     border-top: 1px solid #fff;
+    border-bottom: 1px solid #fff;
 }
 #delete_btn_frame{
     border: 1 1 1 1;

@@ -17,6 +17,7 @@ class Receiver:
         self.block_chain = BlockChain(INIT_BLOCK)
 
         self._miner_socket: socket = socket()
+        # self._miner_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self._miner_socket.bind(('localhost', 30000))
         self._miner_conn: Optional[socket] = None
 
@@ -24,6 +25,7 @@ class Receiver:
         self._miner_socket.listen()
         self._miner_conn, _ = self._miner_socket.accept()
         while True:
+            print("fuck")
             msg = self._miner_conn.recv(4096)
             block = Block.from_json(msg.decode('ascii'))
             if block.validate():

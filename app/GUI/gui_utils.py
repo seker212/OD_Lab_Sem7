@@ -3,8 +3,23 @@ from PyQt6.QtCore import *
 from PyQt6.QtGui import *
 from PyQt6.QtWidgets import *
 from datetime import datetime
+from sys import path
+from typing import Optional
+from subprocess import Popen
+import os
+if path[0].endswith('\\app'):
+    del path[0]
+if '' not in path:
+    path.append('')
 
-blocks = []
+from app.receiver import Receiver
+from common.init_block import INIT_BLOCK
+
+miner_path = os.path.dirname(__file__).replace("app\GUI", "miner/miner.py")
+
+# blocks = []
+# reciver = Receiver()
+current_lenght = 0
 
 class DataModel(QAbstractTableModel):
     def __init__(self, data):
@@ -39,60 +54,62 @@ def set_start_block(self):
     te = QTextEdit()
     te.setText('''
         START BLOCK
-        Hash: H5fgSF
-        TimeStamp: {}
-    '''.format(datetime.now().strftime("%d-%m-%Y %H:%M:%S")))
-    blocks.append([te.toPlainText(),"",""])
-    self.model = DataModel(blocks)
+        Hash: {}
+    '''.format(list(self.blocks_dict._block_dict.values())[0][0].block_hash[:10])) #datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+    self.blocks.append([te.toPlainText(),"",""])
+    self.model = DataModel(self.blocks)
     self.tableView.setModel(self.model)
 
-def add_block(self):
-    if not self.check_text_input():
-        self.set_empty_input_warning()
-    else:
-        self.set_input_default_color()
-        self.add_new_block_to_list()
+# def add_block(self):
+#     if not self.check_text_input():
+#         self.set_empty_input_warning()
+#     else:
+#         self.set_input_default_color()
+#         self.add_new_block_to_list()
 
+def refresh_blocks(self):
+    block_list = list(self.worker.get_dict().values())
+    if len(self.blocks) != len(block_list):
+        self.blocks.clear()
+        add_new_blocks_to_list(self, block_list)
 
-def add_new_block_to_list(self):
-    te = QTextEdit()
-    te.setText('''
-        BLOCK
-        Hash: H5fgSF
-        Prev Hash: JKd78HH
-        TimeStamp: {}
-        Message: {}
-    '''.format(datetime.now().strftime("%d-%m-%Y %H:%M:%S"), self.text_input.text()))
-    print(blocks)
-    
-    if not any("" in block for block in blocks):
-        blocks.append([te.toPlainText(),"",""])
-    else:   
-        for r in range(len(blocks)):
-            for c in range(3):
-                if blocks[r][c] == "":
-                    blocks[r][c] = te.toPlainText()
-                    break
-            
-    self.model = DataModel(blocks)
+def add_new_blocks_to_list(self, blocks_list):
+    for i, b in enumerate(blocks_list):
+        if i == 0:
+            te = QTextEdit()
+            te.setText('''
+                START BLOCK
+                Hash: {}
+            '''.format(b[0].block_hash[:10]))
+        else:
+            te = QTextEdit()
+            te.setText('''
+                BLOCK {}
+                Hash: {}
+                Prev Hash: {}
+            '''.format(i, b[0].block_hash[:10], b[0].prev_hash[:10]))
+            print(self.blocks)
+        
+        if "Hash: " + b[0].block_hash[:10] not in self.blocks:
+            if not any("" in block for block in self.blocks):
+                self.blocks.append([te.toPlainText(),"",""])
+            else:   
+                for r in range(len(self.blocks)):
+                    for c in range(3):
+                        if self.blocks[r][c] == "":
+                            self.blocks[r][c] = te.toPlainText()
+                            break
+   
+
+def refresh_table_content(self):
+    refresh_blocks(self)
+    self.model = DataModel(self.blocks)
     self.tableView.setModel(self.model)
-
-def check_text_input(self):
-    if self.text_input.text() == "" or "Please fill this field!" in self.text_input.text():
-        return False
-    else:
-        return True
-    
-def set_empty_input_warning(self):
-    self.text_input.setStyleSheet("color: #ff0000")
-    self.text_input.setText("Please fill this field!")
-
-def set_input_default_color(self):
-    self.text_input.setStyleSheet("color: #00000")
+    print("To ja")
 
 def clear_all_blocks(self):
-    if not (len(blocks) == 1 and blocks[0][1] == "" and blocks[0][2] == ""):
-        blocks.clear()
+    if not (len(self.blocks) == 1 and self.blocks[0][1] == "" and self.blocks[0][2] == ""):
+        self.blocks.clear()
         self.set_start_block()
     
 def show_message_box(self):
@@ -113,3 +130,22 @@ def show_message_box(self):
         msgBox.setStandardButtons(QMessageBox.StandardButton.Ok)
         msgBox.buttons()[0].setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         msgBox.exec()
+
+def run_miner(self):
+    print(miner_path)
+    Popen('python {}'.format(miner_path))
+    # os.system("cmd /c python miner/miner.py") 
+
+def clear_all(self):
+    self.workerThread.terminate()
+    self.blocks.clear()
+    self.blocks.append(["","",""])
+    self.model = DataModel(self.blocks)
+    self.tableView.setModel(self.model)
+
+# def interval_refresh_blocks(self):
+#      # timer which repate function `display_time` every 1000ms (1s)
+#     timer = QTimer()
+#     timer.timeout.connect(refresh_table_content)  # execute `display_time`
+#     timer.setInterval(1000)  # 1000ms = 1s
+#     timer.start()
