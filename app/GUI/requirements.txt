@@ -1,3 +1,4 @@
 pyqt6==6.1.0
 pyqt6-tools==6.1.0.3.2
 pyqt6-plugins==6.1.0.2.2
+psutil==5.8.0

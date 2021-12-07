@@ -78,9 +78,12 @@ class Miner:
                 logging.debug(f'Fake blockchain len: {self._block_cache.fake.chain_length}')
 
     def _send(self, block: Block, miner_name: str):
-        self.front_socket.send(block.to_json().encode('ascii'))
-        logging.info(f'{miner_name}\tsent block - {block.to_json()}')
-        sleep(10)
+        try:
+            self.front_socket.send(block.to_json().encode('ascii'))
+            logging.info(f'{miner_name}\tsent block - {block.to_json()}')
+            sleep(10)
+        except ConnectionResetError:
+            print("Connection lost")
 
     def mine(self):
         while True:
@@ -112,3 +115,4 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO, format='%(levelname)s:\t%(message)s')
     miner = Miner()
     miner.mine()
+    
