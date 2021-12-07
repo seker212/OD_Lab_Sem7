@@ -80,15 +80,18 @@ def add_new_blocks_to_list(self, blocks_list):
             te.setText('''
                 START BLOCK
                 Hash: {}
-            '''.format(b[0].block_hash[:10]))
+                Data: {}
+                Is valid: {} 
+            '''.format(b[0].block_hash[:10], b[0].data, b[0].is_valid))
         else:
             te = QTextEdit()
             te.setText('''
                 BLOCK {}
                 Hash: {}
                 Prev Hash: {}
-            '''.format(i, b[0].block_hash[:10], b[0].prev_hash[:10]))
-            print(self.blocks)
+                Data: {}
+                {}
+            '''.format(i, b[0].block_hash[:10], b[0].prev_hash[:10], b[0].data, b[0].is_valid))
         
         if "Hash: " + b[0].block_hash[:10] not in self.blocks:
             if not any("" in block for block in self.blocks):
@@ -104,8 +107,8 @@ def add_new_blocks_to_list(self, blocks_list):
 def refresh_table_content(self):
     refresh_blocks(self)
     self.model = DataModel(self.blocks)
+    self.model.setbackgroundcolor(0, 0, value:QColr)
     self.tableView.setModel(self.model)
-    print("To ja")
 
 def clear_all_blocks(self):
     if not (len(self.blocks) == 1 and self.blocks[0][1] == "" and self.blocks[0][2] == ""):
@@ -132,7 +135,6 @@ def show_message_box(self):
         msgBox.exec()
 
 def run_miner(self):
-    print(miner_path)
     Popen('python {}'.format(miner_path))
     # os.system("cmd /c python miner/miner.py") 
 
