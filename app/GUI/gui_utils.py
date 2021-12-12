@@ -15,7 +15,7 @@ if '' not in path:
 from app.receiver import Receiver
 from common.init_block import INIT_BLOCK
 
-miner_path = os.path.dirname(__file__).replace("app\GUI", "miner/miner.py")
+miner_path = '"' + os.path.dirname(__file__).replace("app\GUI", "miner/miner.py") + '"'
 
 class DataModel(QAbstractTableModel):
     def __init__(self, data):
