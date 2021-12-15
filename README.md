@@ -18,11 +18,11 @@ Hash function is used to generate hash value.
 
 ### What is proof of work
 
-Proof of work is used to verify hash value
+Proof of work is form of cryptographic proof that verifies the longeset chain of blocks.
 
 ### What is 51% attack
 
-51% attack is a type of attack in which a computer program or a networked system is able to modify the data in a database or a file without the user's knowledge.
+51% attack is a type of attack in which attackers control more than half of the network mining hash allowing them to input fake blocks also controlling other miners from completing valid blocks (gaining confirmations).
 
 ## How to run this project
 
@@ -47,7 +47,7 @@ This is shown in UI screen below.
 
 ![image](.github/images/start.png)
 
-Working progress is shown in UI screen below, as miner works blocks are added and displayed. If invalid (FAKE) block it is shown in red color, valid (GENUINE) block are in green, and any conflicting (CONFLICT) blocks (conflict means that there are blockchain of the same length) is shown in orange.
+Working progress is shown in UI screen below, as miner works blocks are added and displayed. Invalid block is shown in red color, valid block are in green, and any conflicting blocks (conflict means that there are blockchain of the same length) is shown in orange.
 
 ![image](.github/images/working.png)
 
@@ -64,7 +64,7 @@ Miner is a program that is running in background and is mining blocks. It is run
 There are parameters that can be change before running the program inside `/miner/miner.py` file. List below shows all parameters and their default values as well their description.
 
 ```python
-# Maximum difference in blockchains length between valid blocks and invalid blocks
+# Maximum difference in blockchains length between valid blocks mined by genuine miners and invalid blocks
 MAX_FAKE_FALLBEHIND: int = 5
 # Number of fake miners that will try place invalid blocks
 FAKE_MIMERS_COUNT: int = 2
