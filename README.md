@@ -75,3 +75,4 @@ SLEEP_SECONDS: int = 0.5
 # Delay in blockchains after normal miners starts mining
 FAKE_MINERS_DELAY_COUNT: int = 2
 ```
+
